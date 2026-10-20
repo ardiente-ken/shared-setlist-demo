@@ -5,7 +5,7 @@ alter table public.folders
   add column if not exists share_token text unique
     check (share_token is null or share_token ~ '^[a-z0-9]{20,64}$');
 
--- Anyone holding the link can read that ONE setlist and its ACTIVE songs.
+-- Anyone holding the link can read that ONE setlist and ALL its songs (is_active is ignored here).
 -- Reachable only by exact token; tokens are never listed or exposed to anonymous users
 -- (anonymous users have no direct access to the folders table at all).
 create or replace function public.get_shared_setlist(p_token text)
@@ -27,7 +27,7 @@ as $$
       )
       from public.folder_songs fs
       join public.songs s on s.id = fs.song_id
-      where fs.folder_id = f.id and s.is_active
+      where fs.folder_id = f.id
     ), '[]'::jsonb)
   )
   from public.folders f

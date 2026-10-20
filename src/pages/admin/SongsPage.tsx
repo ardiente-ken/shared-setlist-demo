@@ -48,7 +48,6 @@ export default function SongsPage() {
               <div className="row-title">{song.title}</div>
               <div className="row-sub">
                 <span>{song.artist}</span>
-                {!song.is_active && <span className="badge">Inactive</span>}
                 {!song.lyrics.trim() && <span className="badge badge-warn">No lyrics</span>}
               </div>
             </div>

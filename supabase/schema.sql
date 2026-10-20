@@ -209,7 +209,7 @@ revoke all on function public.list_public_folders()   from public;
 grant execute on function public.get_public_folder(text) to anon, authenticated;
 grant execute on function public.list_public_folders()   to anon, authenticated;
 
--- shared-setlist app: ONE setlist (folder) + its active songs for an exact share token.
+-- shared-setlist app: ONE setlist (folder) + ALL its songs (is_active ignored) for an exact share token.
 create or replace function public.get_shared_setlist(p_token text)
 returns jsonb
 language sql
@@ -229,7 +229,7 @@ as $$
       )
       from public.folder_songs fs
       join public.songs s on s.id = fs.song_id
-      where fs.folder_id = f.id and s.is_active
+      where fs.folder_id = f.id
     ), '[]'::jsonb)
   )
   from public.folders f

@@ -98,7 +98,6 @@ export default function SetlistSongsManager({ setlistId, memberIds, onChanged }:
                   <div className="row-title">{song?.title ?? 'Unknown song'}</div>
                   <div className="row-sub">
                     {song?.artist}
-                    {song && !song.is_active && <span className="badge badge-warn">inactive: hidden from viewers</span>}
                     {song && !song.lyrics.trim() && <span className="badge badge-warn">no lyrics</span>}
                   </div>
                 </div>

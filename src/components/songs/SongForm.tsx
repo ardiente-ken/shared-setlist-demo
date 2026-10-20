@@ -78,11 +78,6 @@ export default function SongForm({ initial = EMPTY_SONG, submitLabel, onSubmit, 
               Headers like [Chorus] or "Verse 1" are detected.
             </span>
           </label>
-
-          <label className="check">
-            <input type="checkbox" checked={values.is_active} onChange={(e) => set('is_active', e.target.checked)} />
-            <span>Active (inactive songs are hidden from shared setlists)</span>
-          </label>
         </div>
 
         <aside className={`preview ${showPreview ? 'is-open' : ''}`} aria-label="Preview">

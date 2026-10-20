@@ -46,7 +46,7 @@ insert into public.admins (user_id)
 
 - A share link is `/s/<32 random hex characters>` (128 bits). It is **not** derived from the setlist name and cannot be guessed.
 - Anonymous users have **no direct access** to any table. They can only call `get_shared_setlist(token)`,
-  which returns that one setlist and its **active** songs, and `null` for any wrong, empty or revoked token.
+  which returns that one setlist and **all** its songs (a song's `is_active` flag doesn't matter here), and `null` for any wrong, empty or revoked token.
 - **New link** replaces the token (the old link dies). **Stop sharing** clears it (the link dies immediately).
 - Only users listed in `admins` can create or change songs, setlists and links (Row Level Security).
 - Only the public **anon** key is used in the browser. Never put the service-role key in this app.

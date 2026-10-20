@@ -94,10 +94,18 @@ describe('songs inside a setlist', () => {
     return onChanged;
   };
 
-  it('lists the songs in order and flags inactive ones', async () => {
+  it('lists the songs in order; "inactive" songs are treated like any other', async () => {
     renderManager(['2', '5']);
     expect(await screen.findByText(/Songs in this setlist \(2\)/)).toBeTruthy();
-    expect(screen.getByText(/inactive: hidden from viewers/i)).toBeTruthy();
+    expect(screen.getByText('Echo')).toBeTruthy(); // Echo is inactive in the database
+    expect(screen.queryByText(/inactive/i)).toBeNull(); // and nothing warns about it
+  });
+
+  it('inactive songs can be added to a setlist like any other song', async () => {
+    renderManager([]);
+    fireEvent.click(await screen.findByLabelText(/Echo/));
+    fireEvent.click(screen.getByRole('button', { name: /add 1 song to setlist/i }));
+    await waitFor(() => expect(addSongsToSetlist).toHaveBeenCalledWith('sl1', ['5'], 0));
   });
 
   it('adds several songs at once at the END of the setlist', async () => {
@@ -160,18 +168,27 @@ describe('song form (add and edit)', () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it('saves trimmed values including lyrics and the active flag', async () => {
+  it('saves trimmed values including lyrics; there is no Active checkbox', async () => {
     const onSubmit = vi.fn().mockResolvedValue(undefined);
     render(<SongForm submitLabel="Save" onSubmit={onSubmit} onCancel={vi.fn()} />);
+    expect(screen.queryByRole('checkbox')).toBeNull();
     const [title, artist] = screen.getAllByRole('textbox');
     fireEvent.change(title, { target: { value: '  Perfect  ' } });
     fireEvent.change(artist, { target: { value: ' Ed Sheeran ' } });
     fireEvent.change(screen.getByLabelText(/lyrics with chords/i), { target: { value: '[G]Hello' } });
-    fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: /^save$/i }));
     await waitFor(() => expect(onSubmit).toHaveBeenCalledWith({
-      title: 'Perfect', artist: 'Ed Sheeran', lyrics: '[G]Hello', chords: '', is_active: false,
+      title: 'Perfect', artist: 'Ed Sheeran', lyrics: '[G]Hello', chords: '', is_active: true,
     }));
+  });
+
+  it("editing never changes a song's is_active value in the database", async () => {
+    const onSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<SongForm initial={{ title: 'Old', artist: 'A', lyrics: 'x', chords: '', is_active: false }}
+      submitLabel="Save" onSubmit={onSubmit} onCancel={vi.fn()} />);
+    fireEvent.change(screen.getByLabelText(/lyrics with chords/i), { target: { value: 'new words' } });
+    fireEvent.click(screen.getByRole('button', { name: /^save$/i }));
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ lyrics: 'new words', is_active: false })));
   });
 
   it('editing starts from the existing values', () => {
