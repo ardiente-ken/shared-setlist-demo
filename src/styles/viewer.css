@@ -1,0 +1,45 @@
+/* Reader (shared link). Phone first; wider screens just centre the column. */
+.reader { min-height: 100dvh; display: flex; flex-direction: column; }
+.content { flex: 1; width: 100%; max-width: 720px; margin: 0 auto; padding: 20px 16px 28px; touch-action: pan-y; }
+
+.pos { padding: 0 6px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.tools { display: flex; gap: 6px; margin-left: auto; }
+.lbl { display: none; }
+@media (min-width: 560px) { .lbl { display: inline; } }
+
+.song-title { font-size: 1.7rem; font-weight: 800; }
+.song-artist { margin: 4px 0 12px; color: var(--muted); }
+.song-meta { display: inline-block; margin: 0 0 18px; padding: 4px 12px; border: 1px solid var(--chord); border-radius: 999px; color: var(--chord); font-family: var(--mono); font-weight: 700; font-size: 0.9rem; }
+
+.bottombar {
+  position: sticky; bottom: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--border);
+}
+.bottombar .tbtn { min-height: 52px; font-size: 1.05rem; }
+
+.banner { margin: 0; padding: 8px 12px; text-align: center; font-size: 0.9rem; background: var(--surface); color: var(--chord); }
+
+/* setlist (song list) */
+.reader-head { margin-bottom: 16px; }
+.reader-head h1 { font-size: 1.8rem; font-weight: 800; }
+.reader-head p { margin: 6px 0 0; color: var(--muted); }
+.count { margin: 14px 2px 8px; font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+.song-list { list-style: none; margin: 12px 0 0; padding: 0; border-top: 1px solid var(--border); }
+.song-list li { border-bottom: 1px solid var(--border); }
+.song-link { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 10px 4px; }
+.song-link:active { background: var(--surface); }
+.song-num { width: 28px; text-align: right; flex-shrink: 0; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.song-main { flex: 1; min-width: 0; }
+.song-name { display: block; font-weight: 700; }
+.song-by { display: block; color: var(--muted); font-size: 0.92rem; }
+.chev { color: var(--muted); font-size: 1.5rem; }
+.reader-msg { padding: 56px 20px; text-align: center; color: var(--muted); }
+
+/* printing: just the song */
+@media print {
+  .topbar, .bottombar, .banner { display: none !important; }
+  .content { max-width: none; padding: 0; }
+  body { background: #fff; }
+  .song-title, .cl { color: #000 !important; }
+  .cl-chord, .cl-chords-line, .song-meta { color: #b91c1c !important; border-color: #b91c1c; }
+}

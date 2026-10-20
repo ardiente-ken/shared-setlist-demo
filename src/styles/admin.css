@@ -1,0 +1,86 @@
+/* Admin. Phone first: one column, big buttons, sticky save bars. Wider screens get more room. */
+.admin { min-height: 100dvh; }
+.brand { font-weight: 800; font-size: 1.1rem; flex: 1; }
+.tabs { display: flex; gap: 6px; padding: 8px 12px; background: var(--bg); border-bottom: 1px solid var(--border); }
+.tabs a { flex: 1; text-align: center; padding: 11px 8px; border-radius: 10px; font-weight: 700; color: var(--muted); background: var(--surface); }
+.tabs a.active { background: var(--accent); color: var(--accent-ink); }
+.admin-main { width: 100%; max-width: 760px; margin: 0 auto; padding: 18px 14px 90px; }
+
+.page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.page-head h1 { font-size: 1.6rem; font-weight: 800; }
+.page-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* lists */
+.row-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.row { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.row-title { font-weight: 700; overflow-wrap: anywhere; }
+.row-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted); font-size: 0.92rem; }
+.row-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.card { margin-top: 18px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.card h2 { font-size: 1.1rem; margin-bottom: 10px; }
+
+/* sign-in */
+.center { min-height: 100dvh; display: grid; place-items: center; padding: 20px; }
+.login { width: 100%; max-width: 380px; display: grid; gap: 14px; }
+.login h1 { font-size: 1.6rem; font-weight: 800; }
+
+/* forms */
+.form-fields { display: grid; gap: 16px; }
+.form-row { display: grid; gap: 16px; }
+.lyrics-input { font-family: var(--mono); font-size: 15px; line-height: 1.5; resize: vertical; white-space: pre; overflow-x: auto; min-height: 280px; }
+.form-actions {
+  position: sticky; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px;
+  margin: 18px -14px 0; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--border);
+}
+.form-actions .btn-primary { flex: 1; }
+.preview { display: none; margin-top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.preview.is-open { display: block; }
+.preview-label { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.preview .song-title { font-size: 1.3rem; }
+
+/* share link */
+.share-url { display: grid; gap: 8px; margin: 10px 0; }
+.share-url .input { font-family: var(--mono); font-size: 14px; }
+.share-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+/* songs inside a setlist */
+.fm-list { list-style: none; margin: 10px 0 0; padding: 0; }
+.fm-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.fm-num { width: 24px; text-align: right; color: var(--accent); font-weight: 800; flex-shrink: 0; }
+.fm-main { flex: 1; min-width: 0; }
+.fm-tools { display: flex; gap: 6px; flex-shrink: 0; }
+.fm-tools .btn { min-width: 44px; padding: 0 10px; }
+.pick { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 6px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.pick input { width: 22px; height: 22px; accent-color: var(--accent); flex-shrink: 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 0; }
+.addbar {
+  position: sticky; bottom: 0; z-index: 10; margin: 12px -14px -16px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  background: var(--bg); border-top: 1px solid var(--border);
+}
+.addbar .btn { width: 100%; }
+
+/* home */
+.home { min-height: 100dvh; display: grid; place-items: center; padding: 24px; text-align: center; }
+.home h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
+.home p { margin: 0 auto 20px; max-width: 360px; color: var(--muted); }
+
+/* ---------- wider screens: just more room ---------- */
+@media (min-width: 720px) {
+  .admin-main { padding-top: 28px; }
+  .tabs { max-width: 760px; margin: 0 auto; border-bottom: 0; }
+  .row { grid-template-columns: 1fr auto; align-items: center; }
+  .row-actions { justify-content: flex-end; }
+  .form-row { grid-template-columns: 1fr 1fr; }
+  .share-url { grid-template-columns: 1fr auto; }
+  .form-actions { position: static; margin: 22px 0 0; padding: 0; border: 0; background: none; }
+  .form-actions .btn-primary { flex: 0 0 auto; }
+  .addbar { margin: 12px 0 0; padding: 0; border: 0; position: static; }
+  .addbar .btn { width: auto; }
+}
+@media (min-width: 1000px) {
+  .admin-main.wide { max-width: 1100px; }
+  .editor-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .preview { display: block; position: sticky; top: 76px; margin-top: 0; max-height: calc(100dvh - 100px); overflow-y: auto; }
+  .preview-toggle { display: none; }
+}
